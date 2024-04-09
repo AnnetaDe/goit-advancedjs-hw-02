@@ -1,8 +1,10 @@
 export * from "./2-snackbar.js";
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
-// `✅ Fulfilled promise in ${delay}ms`
-// `❌ Rejected promise in ${delay}ms`
+
+import iconSuccess from '../img/bi_check2-circle.svg';
+import iconWarn from '../img/bi_exclamation-triangle.svg';
+import iconError from '../img/bi_x-octagon.svg';
 
 const delayInput = document.querySelector('input[type="number"]');
 const form = document.querySelector("form");
@@ -36,7 +38,8 @@ function onFormSubmit(event) {
             iziToast.success({
               backgroundColor: "#59A10D",
               title: "Success",
-              message: `Promise resolved after ${delay}ms`
+              message: `Promise resolved after ${delay}ms`,
+              icon: iconSuccess,
             });
           }, delay)
         );
@@ -47,7 +50,7 @@ function onFormSubmit(event) {
               title: "Error",
               message: `Promise rejected after ${delay}ms`,
               backgroundColor: "#EF4040",
-              icon: "ico-error"
+              icon: iconError
               
             
             });
@@ -59,4 +62,3 @@ function onFormSubmit(event) {
 }
 
 form.addEventListener("submit", onFormSubmit);
-form.addEventListener("input", onFormInput);
