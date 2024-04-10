@@ -43,7 +43,9 @@ form.addEventListener("submit", (event) => {
       position: 'topRight',
       backgroundColor: '#FFA000',
       theme: 'dark',
-      iconUrl: iconWarn,
+      iconUrl:iconWarn,
+      theme: 'dark',
+      
     });
     form.focus();
   } else {
@@ -54,7 +56,9 @@ form.addEventListener("submit", (event) => {
           message: `Fulfilled promise in ${delay}ms`,
           position: 'topRight',
           backgroundColor: '#59a10d',
-          iconUrl: iconSuccess,
+          iconUrl:iconSuccess,
+          theme: 'dark',
+          
         });
       })
       .catch(() => {
@@ -62,8 +66,10 @@ form.addEventListener("submit", (event) => {
           title: "Error",
           message: `Promise rejected after ${userInput.delay}ms`,
           backgroundColor: "#EF4040",
-          iconUrl: iconError,
+          iconUrl:iconError,
           position: 'topRight',
+          theme: 'dark',
+       
         });
       });
     form.reset();

@@ -1,3 +1,6 @@
+
+
+
 .form {
   margin-top: 36px;
   height: auto;
@@ -21,7 +24,7 @@
   outline: none;
   border-radius: 4px;
   color: #2e2f42;
-  font-family: Montserrat;
+  font-family: Montserrat, sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -85,14 +88,13 @@ button:hover {
   background-color: #6C8CFF;
 }
 .iziToast {
-    width: 383px;
-  font-family: Montserrat;
-  font-size: 16px;
+  width: 383px;
+  font-family: Montserrat, sans-serif;
+  font-size: 24px;
   font-style: normal;
   font-weight: 400;
   line-height: 150%;
   letter-spacing: 0.64px;
   border-radius: 4px;
-border-bottom: 2px solid #B5EA7C;
-background: #59A10D;
+
 }

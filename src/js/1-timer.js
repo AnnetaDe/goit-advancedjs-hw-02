@@ -71,10 +71,10 @@ function startTimer() {
     if (targetDate > currentDate) {
         const deltaTime = targetDate - currentDate;
         const { days, hours, minutes,seconds } = convertMs(deltaTime);
-        daysEl.textContent = days;
-        hoursEl.textContent = hours;
-        minutesEl.textContent = minutes;
-        secondsEl.textContent = seconds;
+        daysEl.textContent = addZero(days);
+        hoursEl.textContent = addZero(hours);
+        minutesEl.textContent = addZero(minutes);
+        secondsEl.textContent = addZero(seconds);
       const timerId = setInterval(() => {
         const currentDate = new Date();
         const deltaTime = targetDate - currentDate;
@@ -84,16 +84,13 @@ function startTimer() {
         hoursEl.textContent = addZero(hours);
         minutesEl.textContent = addZero(minutes);
         secondsEl.textContent = addZero(seconds);
-        
         if (deltaTime < 1000) {
             clearInterval(timerId);
-            startBtn.disabled = false;
         }
     }, 1000);
-    startBtn.disabled = true;
     };
-
-  }
+    startBtn.disabled = true;
+}
   
   
 function convertMs(ms) {
@@ -116,7 +113,6 @@ function convertMs(ms) {
 function addZero(value) {
     return String(value).padStart(2, "0");
   }
-  
 startBtn.addEventListener("click", startTimer);
 startBtn.classList.add("button");
 
