@@ -2,63 +2,87 @@ export * from "./2-snackbar.js";
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
-import iconSuccess from '../img/bi_check2-circle.svg';
-import iconWarn from '../img/bi_exclamation-triangle.svg';
-import iconError from '../img/bi_x-octagon.svg';
+import iconSuccess from "../img/bi_check2-circle.svg";
+import iconWarn from "../img/bi_exclamation-triangle.svg";
+import iconError from "../img/icon-error.svg";
 
-const delayInput = document.querySelector('input[type="number"]');
 const form = document.querySelector("form");
 const fieldSet = document.querySelector("fieldset");
-const rejected = document.querySelector(
-  'input[type="radio"][value="rejected"]'
-);
-const fulfilled = document.querySelector(
-  'input[type="radio"][value="fulfilled"]'
-);
-iziToast.settings({
-  timeout: 5000,
-  resetOnHover: true,
-  errorMessage: true,
-  position: "topRight"
-});
+const delay = document.querySelector("input[name='delay']");
+const stateFullfilled = document.querySelectorAll("input[name='state'][value='fulfilled']")[0];
+const stateRejected = document.querySelectorAll("input[name='state'][value='rejected']")[0];
+const radioButtons = document.querySelectorAll("input[name='state']");
 
-let status;
-let delay;
 
-function onFormSubmit(event) {
-  event.preventDefault();
-  delay = delayInput.value;
-  status = rejected.checked ? "rejected" : "fulfilled";
-  console.log(delay, status);
-  if (delay && status) {
-    const promise = new Promise((resolve, reject) => {
-      if (status === "fulfilled") {
-        resolve(
-          setTimeout(() => {
-            iziToast.success({
-              backgroundColor: "#59A10D",
-              title: "Success",
-              message: `Promise resolved after ${delay}ms`,
-              icon: iconSuccess,
-            });
-          }, delay)
-        );
-      } else {
-        resolve(
-          setTimeout(() => {
-            iziToast.error({
-              title: "Error",
-              message: `Promise rejected after ${delay}ms`,
-              backgroundColor: "#EF4040",
-              icon: iconError
-              
-            
-            });
-          }, delay)
-        );
-      }
-    });
-  }
+
+let userInput={
+  delay: '',
+  state: '',
 }
 
-form.addEventListener("submit", onFormSubmit);
+
+
+form.addEventListener("input", (event) => {
+  userInput.delay=delay.value;
+  if(event.target===stateFullfilled){
+    userInput.state=stateFullfilled.value;
+  }
+  if(event.target===stateRejected){
+    userInput.state=stateRejected.value;
+  }
+})
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  console.log(userInput);
+ 
+  if(userInput.delay==='' || userInput.state===''){
+    iziToast.warning({
+      title: 'Caution',
+      message: `You forgot important data`,
+      position: 'topRight',
+      backgroundColor: '#FFA000',
+      theme: 'dark',
+      iconUrl: iconWarn,
+    });
+    form.focus();
+  } else {
+    makePromise(userInput.state, userInput.delay)
+      .then(delay => {
+        iziToast.success({
+          title: 'OK',
+          message: `Fulfilled promise in ${delay}ms`,
+          position: 'topRight',
+          backgroundColor: '#59a10d',
+          iconUrl: iconSuccess,
+        });
+      })
+      .catch(() => {
+        iziToast.error({
+          title: "Error",
+          message: `Promise rejected after ${userInput.delay}ms`,
+          backgroundColor: "#EF4040",
+          iconUrl: iconError,
+          position: 'topRight',
+        });
+      });
+    form.reset();
+    fieldSet.classList.remove('focus');
+  }
+});
+
+
+const makePromise = (state, delay) => {
+  return new Promise((resolve, reject) => {
+    if (state === "fulfilled") {
+      setTimeout(() => {
+        resolve(delay);
+      }, delay);
+    } else {
+      setTimeout(() => {
+        reject(delay);
+      }, delay);
+    }
+  });
+}
+
