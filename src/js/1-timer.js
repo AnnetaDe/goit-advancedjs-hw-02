@@ -41,6 +41,7 @@ const options = {
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
+  minDate: "today",   //я ще таке знайшла!!)
   onClose(selectedDates) {
     console.log(selectedDates[0]);
   }
@@ -62,11 +63,9 @@ options.onClose = function(selectedDates, dateStr, instance) {
 
   p
     .then(result => {
-      startBtn.disabled = false;
       console.log(result);
     })
     .catch(() => {
-      startBtn.disabled = true;
       console.log("Error");
     });
 };
@@ -95,8 +94,22 @@ function startTimer() {
       clearInterval(timerId);
     }
   }, 1000);
-
+  
   startBtn.disabled = true;
 }
 
-startBtn.addEventListener("click", startTimer);
+
+
+
+startBtn.addEventListener("click", () => {
+  if(fp.selectedDates[0]){
+    startTimer();
+  }else{
+    iziToast.error({
+      title: "ooops!",
+      message: "Please, select a valid date"
+    });
+  }
+ 
+});
+
